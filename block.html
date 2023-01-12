@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--Custom block page for Perrigo using Cisco Umbrella OpenDNS
+    Author: Marc Vanheukelum
+    Company: Perrigo
+    Current Version: 0.1
+    Date updated: 12/22/2022
+-->
+<html lang="en">
+    <head>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <meta name="description" content="This is the Perrigo block page">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js"></script>
+        <title>Perrigo Block Page</title>
+        <script language="Javascript">
+            // It is very important to unescape the information in the query parameters as they will
+            // be URL encoded.  unescape lends consistent results for the purposes of this exercise
+
+            /* Rot13 implementation to decode domain data */
+
+            /*
+            rot13.js
+            ROT13 + ROT5 Encoder/Decoder
+            http://rot47.net
+            http://rot47.net/rot13.html
+            */
+            function rot13(str) 
+            {
+            return str.replace(/[a-zA-Z]/g, function(c){
+                return String.fromCharCode((c <= 'Z' ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);
+            });
+            }
+
+            $(function() {
+                // Get the domain query parameter, use example.com if we don't have one.
+                var domain = $.url().param("url");
+                if (domain) {
+                    domain = rot13(unescape(domain));
+
+                    // Since http:// is no longer passed, the above is the domain to print
+                }
+                else {
+                    domain = "www.example.com";
+                }
+                        
+                $("#domain").text(domain);
+                $("#inputUrl").val(domain);
+
+                // Set a default type to "block".  This allows us to just referance the block page
+                // and see an example of what it would look like without needing extra parameters
+                var type = $.url().param("type");
+                if (!type)
+                    type = "aup";
+                
+                // Show the appropriate messaging based on the redirect type
+                // Blocked Categories/Domains
+                switch (type) {
+                    // Domain blocked due to security settings.
+                    case "security":
+                        $("#message").text("was blocked due to security settings.");
+                        break;
+                    
+                    // Domain blocked due to content settings.
+                    case "aup":
+                        $("#message").text("was blocked due to content settings.");
+                        if ($.url().param("cats")) {
+                            // categories are an escaped JSON array
+                            $("#message").append("<br />Blocked Categories: " + $.parseJSON(unescape($.url().param("cats"))).join(", "));
+                        }
+                        break;
+                    
+                    // Domain blocked due to a destination list.
+                    case "domainlist":
+                        $("#message").text("was blocked due to being blacklisted by Perrigo.");
+                        break;
+                        
+                    // Domain blocked due to being involved in a phishing attack.
+                    case "phish":
+                        $("#message").text("is believed to be involved in a phishing attack.");
+                        break;
+
+                    default:
+                        // You should probably log anything like this as it means people are either
+                        // playing with your block page or OpenDNS added an additional type and you
+                        // should be checking the documentation to see what it means.
+                        $("#message").text("is " + type);
+                        break;
+                }
+            });
+
+        </script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="logo-area">
+                <img id="logo" class="logo" src="images/perrigo-logo-blue.png" alt="logo">
+            </div>
+
+            <div class="content-area">
+                <div class="blocked-page">
+                    <div class="alert-area">
+                        <img id="alert" class="alert" src="images/alert-icon.png" alt="alert icon">
+                        <p class="alert-text">This site was blocked by Perrigo</p>
+                    </div>
+
+                    <div class="url-area">
+                        <input readonly class="url" id="inputUrl" type="text" aria-label="destination">
+                    </div>
+                </div>
+
+                <div class="explanation-area">
+                    <span id="domain"></span> <span id="message"></span>
+                </div>
+
+                <div class="statement">
+                    <p>
+                        If you feel that access to this page is required for business, 
+                        please submit an <a href="https://perrigo.service-now.com/sp?id=sc_cat_item&sys_id=576ad7b6f0b70400cda956655d32b517" target="_blank">Unblock a Website Request</a> 
+                        or contact TAG directly at <a href=mailto:TAG@perrigo.com>TAG@perrigo.com</a> 
+                        In your request, please include a valid business reason and the exact website you would like to access.
+                    </p>
+
+                    <p>
+                        If your website is blocked for being a shortened URL. Pleaes go to this site (<a href="https://unshorten.it/" target="_blank">Unshorten.it</a>) 
+                        to un-shorten your url before navigating to it.(Site may still be blocked if malicouse)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

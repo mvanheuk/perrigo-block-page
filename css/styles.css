@@ -1,0 +1,107 @@
+html{
+    display: block;
+}
+
+body {
+    font-family: "Helvetica Neue",Helvetica,arial,sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    color: #2c3034;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto 50px;
+}
+
+.logo-area{
+    text-align: center;
+    margin-top: 100px;
+}
+
+.logo-area img.logo {
+    height: auto;
+    max-width: 300px;
+    max-height: 200px;
+}
+
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
+
+.content-area {
+    border-top: 1px solid #ddd;
+    padding-bottom: 30px;
+    margin-top: 30px;
+}
+
+.content-area .blocked-page {
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.content-area .blocked-page .alert-area {
+    font-size: 18px;
+    font-weight: 300;
+    color: #444;
+    margin-top: 0;
+    position: relative;
+    padding-left: 48px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+    line-height: 23px;
+}
+
+img.alert{
+    max-width: 55px;
+    max-height: 55px;
+    position: absolute;
+    left: -1px;
+    top: -20px;
+}
+
+.alert-text{
+    padding-left: 25px;
+}
+
+.blocked-site{
+    padding-top: 25px;
+}
+
+.content-area .blocked-page input.url {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 15px;
+    color: #666;
+    font-family: Helvetica;
+    font-weight: 300;
+    box-sizing: border-box;
+}
+
+.content-area .explanation-area {
+    font-size: 14px;
+    font-weight: 300;
+    word-wrap: break-word;
+}
+
+.content-area .explanation-area .custom-message {
+    margin-top: 20px;
+}
+
+.explanation-area{
+    padding-top: 25px;
+}
+
+.statement{
+    padding-top: 25px;
+}
+
+
+
+
+
